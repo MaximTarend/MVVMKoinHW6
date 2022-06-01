@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MVVMKoinHW6</string>
+    <string name="list_title">List</string>
+    <string name="random_title">Random</string>
 </resources>
