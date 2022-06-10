@@ -10,4 +10,10 @@
         android:id="@+id/random_navigation"
         android:icon="@drawable/ic_baseline_360_24"
         android:title="@string/random_title"/>
+
+    <item
+        android:id="@+id/settings_navigation"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/settings_title"/>
+
 </menu>

@@ -32,8 +32,6 @@ class BottomNavFragment: Fragment() {
             val bottomNavController = (childFragmentManager.findFragmentById(R.id.page_container) as NavHostFragment)
                 .navController
             bottomNavigation.setupWithNavController(bottomNavController)
-
-            toolbar.setupWithNavController(bottomNavController)
         }
     }
 

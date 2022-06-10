@@ -14,18 +14,12 @@ import by.hometrainng.mvvmkoinhw6.R
 import by.hometrainng.mvvmkoinhw6.adapters.BeerListAdapter
 import by.hometrainng.mvvmkoinhw6.databinding.FragmentBeerDetailsBinding
 import by.hometrainng.mvvmkoinhw6.databinding.FragmentBeerListBinding
-import by.hometrainng.mvvmkoinhw6.repository.BeerRepository
-import by.hometrainng.mvvmkoinhw6.room.AppDatabase
+
 import by.hometrainng.mvvmkoinhw6.viewModels.ListViewModel
 import by.hometrainng.oroutineshw5.extentions.addPaginationScrollListener
 import by.hometrainng.oroutineshw5.extentions.addSpaceDecoration
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
-
 class BeerListFragment : Fragment() {
 
     private var _binding: FragmentBeerListBinding? = null
@@ -66,9 +60,10 @@ class BeerListFragment : Fragment() {
 
             listViewModel
                 .dataFlow
-                .onEach {
+                .onEach(adapter::submitList) // можно так
+/*                .onEach {
                     adapter.submitList(it)
-                }
+                }*/
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }
     }

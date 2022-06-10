@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import by.hometrainng.mvvmkoin6.domain.model.Beer
+import by.hometrainng.mvvmkoin6.domain.model.BeerDetails
 import by.hometrainng.mvvmkoinhw6.databinding.FragmentRandomBeerBinding
-import by.hometrainng.mvvmkoinhw6.model.Beer
 import by.hometrainng.mvvmkoinhw6.model.LceState
 import by.hometrainng.mvvmkoinhw6.viewModels.RandomBeerViewModel
 import coil.load
@@ -39,37 +40,35 @@ class RandomBeerFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            image.isVisible = false
-            textView.isVisible = false
-            name.isVisible = false
-            buttomRandom.setOnClickListener{
 
-                randomBeerViewModel
-                    .loadRandomFlow
-                    .onEach {
-                        when(it) {
-                            is LceState.Content<Beer> -> {
-                                val beer = it.data
-                                println()
-                                name.text = beer.name
-                                image.load(beer.imageURL)
-                                textView.text = beer.description
-                                image.isVisible = true
-                                textView.isVisible = true
-                                name.isVisible = true
-                            }
-                            is LceState.Error -> {
-                                Snackbar.make(
-                                    root,
-                                    it.throwable.message ?: "Error",
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
-                            }
-                            LceState.Loading -> { }
-                        }
-                    }
-                    .launchIn(viewLifecycleOwner.lifecycleScope)
+            buttomRandom.setOnClickListener{
+                randomBeerViewModel.onClickedRandom()
+                name.isVisible = true
+                image.isVisible = true
+                textView.isVisible = true
             }
+            randomBeerViewModel
+                .loadRandomFlow
+                .onEach {
+                    when(it) {
+                        is LceState.Content<BeerDetails> -> {
+                            val beer = it.data
+                            println()
+                            name.text = beer.name
+                            image.load(beer.imageURL ?: "")
+                            textView.text = beer.description
+                        }
+                        is LceState.Error -> {
+                            Snackbar.make(
+                                root,
+                                it.throwable.message ?: "Error",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                        LceState.Loading -> { }
+                    }
+                }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
         }
     }
 

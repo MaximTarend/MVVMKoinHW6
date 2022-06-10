@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import by.hometrainng.mvvmkoin6.domain.model.Beer
 import by.hometrainng.mvvmkoinhw6.databinding.ListItemBinding
 import by.hometrainng.mvvmkoinhw6.databinding.LoadingItemBinding
-import by.hometrainng.mvvmkoinhw6.model.Beer
-import by.hometrainng.mvvmkoinhw6.model.LceState
 import coil.load
 
 class BeerListAdapter(
@@ -44,23 +43,3 @@ class BeerListAdapter(
         holder.bind(getItem(position))
     }
 }
-
-class ItemViewHolder(
-    private val binding: ListItemBinding,
-    private val onClicked: (Beer) -> Unit
-): RecyclerView.ViewHolder(binding.root) {
-    fun bind (item: Beer) {
-        with(binding) {
-            image.load(item.imageURL)
-            name.text = item.name
-
-            root.setOnClickListener {
-                onClicked(item)
-            }
-        }
-    }
-}
-
-class LoadingViewHolder(
-    binding: LoadingItemBinding
-): RecyclerView.ViewHolder(binding.root)

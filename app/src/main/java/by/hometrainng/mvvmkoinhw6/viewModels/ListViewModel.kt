@@ -2,24 +2,24 @@ package by.hometrainng.mvvmkoinhw6.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import by.hometrainng.mvvmkoinhw6.model.Beer
-import by.hometrainng.mvvmkoinhw6.model.LceState
-import by.hometrainng.mvvmkoinhw6.repository.BeerRepository
-import by.hometrainng.mvvmkoinhw6.room.AppDatabase
+import by.hometrainng.mvvmkoin6.domain.usecase.GetBeersFromDBUseCase
+import by.hometrainng.mvvmkoin6.domain.usecase.GetBeersUseCase
+import by.hometrainng.mvvmkoin6.domain.usecase.InsertBeersToDBUseCase
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 
 class ListViewModel(
-    private val appDatabase: AppDatabase,
-    private val beerRepository: BeerRepository
+    private val getBeersUseCase: GetBeersUseCase,
+    private val getBeersFromDBUseCase: GetBeersFromDBUseCase,
+    private val insertBeersToDBUseCase: InsertBeersToDBUseCase
 ) : ViewModel() {
 
     private var isLoading = false
     private var currentPage = 1
 
-    private val loadMoreFlow = MutableSharedFlow<Unit> (
+    private val loadMoreFlow = MutableSharedFlow<Unit>(
         replay = 1, extraBufferCapacity = 0, onBufferOverflow = BufferOverflow.DROP_OLDEST
-            )
+    )
 
     init {
         onLoadMore()
@@ -29,19 +29,19 @@ class ListViewModel(
         .filter { !isLoading }
         .onEach { isLoading = true }
         .map {
-            runCatching { beerRepository.getAllBeers(currentPage, PAGE_SIZE) }
+            getBeersUseCase(currentPage, PAGE_SIZE)
                 .fold(
                     onSuccess = { it },
                     onFailure = { error("Upload Failure") }
                 )
         }
         .onEach {
-                    appDatabase.beerDao().insertBeers(it)
-                    isLoading = false
-                    currentPage++
+            insertBeersToDBUseCase(it)
+            isLoading = false
+            currentPage++
         }
         .runningReduce { accumulator, value -> accumulator + value }
-        .onStart { emit(appDatabase.beerDao().getBeers()) }
+        .onStart { emit(getBeersFromDBUseCase()) }
         .shareIn(
             scope = viewModelScope,
             started = SharingStarted.Eagerly,

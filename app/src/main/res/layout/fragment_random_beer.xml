@@ -4,13 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="?colorOnPrimary">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Beer List"
+            app:titleTextColor="@color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="200dp"
         android:layout_height="0dp"
         android:padding="10dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/buttom_random"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/name"/>
@@ -19,14 +35,15 @@
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="6dp"
         android:textSize="@dimen/text_size_20"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
         tools:text="name"
-        android:padding="6dp"
-        android:gravity="center"/>
+        style="@style/ColoredTextStyle" />
 
 
     <ScrollView
@@ -49,7 +66,8 @@
             android:padding="10dp"
             tools:text="test"
             android:textSize="@dimen/text_size_20"
-            android:textColor="@color/black"/>
+            android:visibility="invisible"
+            style="@style/ColoredTextStyle" />
 
     </ScrollView>
 
@@ -58,11 +76,11 @@
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Get random beer"
+        android:text="@string/get_random_beer_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="@dimen/text_size_20"
-        android:textColor="@color/black"/>
+        android:textColor="?colorOnSecondary"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

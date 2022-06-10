@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="5dp"
-            android:textColor="@color/black"
+            style="@style/ColoredTextStyle"
             android:textSize="@dimen/card_text_size"
             tools:text="test" />
     </androidx.appcompat.widget.LinearLayoutCompat>
