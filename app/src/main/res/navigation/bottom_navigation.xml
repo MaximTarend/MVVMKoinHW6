@@ -6,7 +6,7 @@
 
     <include app:graph="@navigation/list_navigation"/>
     <include app:graph="@navigation/random_navigation"/>
+    <include app:graph="@navigation/map_navigation"/>
     <include app:graph="@navigation/settings_navigation"/>
-
 
 </navigation>

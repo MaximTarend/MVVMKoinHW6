@@ -18,7 +18,7 @@ class DetailsViewModel(
                 onFailure = { LceState.Error(it) }
             )
         emit(state)
-    }        .shareIn(
+    }.shareIn(
          scope = viewModelScope,
          started = SharingStarted.Eagerly,
          replay = 1

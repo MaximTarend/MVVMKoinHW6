@@ -23,6 +23,9 @@ internal fun BeerDTO.toDetailsDomainModel(): BeerDetails {
         name = name,
         description = description,
         imageURL = imageURL,
+        tagline = tagline,
+        foodPairing = foodPairing,
+        brewersTips = brewersTips
     )
 }
 

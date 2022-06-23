@@ -9,6 +9,26 @@
         android:id="@+id/random"
         android:name="by.hometrainng.mvvmkoinhw6.fragments.RandomBeerFragment"
         tools:layout="@layout/fragment_random_beer">
+
+        <action
+            android:id="@+id/to_info"
+            app:destination="@+id/info"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            />
     </fragment>
+
+    <dialog
+        android:id="@+id/info"
+        android:name="by.hometrainng.mvvmkoinhw6.fragments.InfoFragment"
+        tools:layout="@layout/info_fragment">
+
+        <argument
+            android:name="beer_id"
+            app:argType="integer"/>
+
+    </dialog>
 
 </navigation>

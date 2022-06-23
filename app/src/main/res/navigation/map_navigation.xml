@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map_navigation"
+    app:startDestination="@id/map">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="by.hometrainng.mvvmkoinhw6.fragments.MapFragment"
+        tools:layout="@layout/fragment_map">
+
+        <action
+            android:id="@+id/to_bottom_info"
+            app:destination="@id/bottom_info"/>
+
+    </fragment>
+
+    <dialog
+        android:id="@+id/bottom_info"
+        android:name="by.hometrainng.mvvmkoinhw6.fragments.BottomSheetFragment"
+        tools:layout="@layout/bottom_sheet_info">
+
+        <argument
+            android:name="breweryID"
+            app:argType="string"/>
+
+    </dialog>
+
+</navigation>

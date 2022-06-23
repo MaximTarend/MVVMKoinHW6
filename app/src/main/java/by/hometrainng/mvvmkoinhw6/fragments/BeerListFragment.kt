@@ -10,6 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.hometrainng.mvvmkoin6.domain.model.Beer
 import by.hometrainng.mvvmkoinhw6.R
 import by.hometrainng.mvvmkoinhw6.adapters.BeerListAdapter
 import by.hometrainng.mvvmkoinhw6.databinding.FragmentBeerDetailsBinding
@@ -18,6 +19,7 @@ import by.hometrainng.mvvmkoinhw6.databinding.FragmentBeerListBinding
 import by.hometrainng.mvvmkoinhw6.viewModels.ListViewModel
 import by.hometrainng.oroutineshw5.extentions.addPaginationScrollListener
 import by.hometrainng.oroutineshw5.extentions.addSpaceDecoration
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 class BeerListFragment : Fragment() {
@@ -60,10 +62,18 @@ class BeerListFragment : Fragment() {
 
             listViewModel
                 .dataFlow
-                .onEach(adapter::submitList) // можно так
-/*                .onEach {
-                    adapter.submitList(it)
-                }*/
+/*                .onEach(adapter::submitList) // можно так*/
+                .onEach {
+                    if(it == emptyList<Beer>()) {
+                        Snackbar.make(
+                            root,
+                             "Upload failure",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        adapter.submitList(it)
+                    }
+                }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }
     }

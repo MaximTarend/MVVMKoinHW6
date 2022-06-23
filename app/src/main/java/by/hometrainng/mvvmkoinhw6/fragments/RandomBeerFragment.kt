@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import by.hometrainng.mvvmkoin6.domain.model.Beer
 import by.hometrainng.mvvmkoin6.domain.model.BeerDetails
+import by.hometrainng.mvvmkoinhw6.R
 import by.hometrainng.mvvmkoinhw6.databinding.FragmentRandomBeerBinding
 import by.hometrainng.mvvmkoinhw6.model.LceState
 import by.hometrainng.mvvmkoinhw6.viewModels.RandomBeerViewModel
@@ -24,6 +26,8 @@ class RandomBeerFragment: Fragment() {
     private val binding get() = requireNotNull(_binding)
 
     private val randomBeerViewModel by viewModel<RandomBeerViewModel>()
+
+    private var beerID = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,9 +47,6 @@ class RandomBeerFragment: Fragment() {
 
             buttomRandom.setOnClickListener{
                 randomBeerViewModel.onClickedRandom()
-                name.isVisible = true
-                image.isVisible = true
-                textView.isVisible = true
             }
             randomBeerViewModel
                 .loadRandomFlow
@@ -53,9 +54,9 @@ class RandomBeerFragment: Fragment() {
                     when(it) {
                         is LceState.Content<BeerDetails> -> {
                             val beer = it.data
-                            println()
+                            beerID = beer.id
                             name.text = beer.name
-                            image.load(beer.imageURL ?: "")
+                            image.load(beer.imageURL)
                             textView.text = beer.description
                         }
                         is LceState.Error -> {
@@ -69,6 +70,18 @@ class RandomBeerFragment: Fragment() {
                     }
                 }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
+
+            toolbar.setOnMenuItemClickListener {
+                when(it.itemId) {
+                    R.id.info -> {
+                        findNavController().navigate(
+                            RandomBeerFragmentDirections.toInfo(beerID)
+                        )
+                        true
+                    }
+                    else -> false
+                }
+            }
         }
     }
 

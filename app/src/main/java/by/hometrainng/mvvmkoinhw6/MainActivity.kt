@@ -7,7 +7,7 @@ import by.hometrainng.mvvmkoinhw6.manager.SharedPrefsManager
 import by.hometrainng.mvvmkoinhw6.model.NightMode
 import org.koin.android.ext.android.inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val prefsManager: SharedPrefsManager by inject()
 
@@ -21,9 +21,6 @@ class MainActivity : AppCompatActivity() {
                 NightMode.SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             }
         )
-
-        setContentView(R.layout.activity_main)
     }
-
 }
 

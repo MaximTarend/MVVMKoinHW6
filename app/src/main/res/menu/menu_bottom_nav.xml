@@ -12,6 +12,11 @@
         android:title="@string/random_title"/>
 
     <item
+        android:id="@+id/map_navigation"
+        android:icon="@android:drawable/ic_menu_mapmode"
+        android:title="@string/map_title"/>
+
+    <item
         android:id="@+id/settings_navigation"
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="@string/settings_title"/>

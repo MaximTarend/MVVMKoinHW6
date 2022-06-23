@@ -2,6 +2,7 @@ package by.hometrainng.mvvmkoinhw6.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import by.hometrainng.mvvmkoin6.domain.model.Beer
 import by.hometrainng.mvvmkoin6.domain.usecase.GetBeersFromDBUseCase
 import by.hometrainng.mvvmkoin6.domain.usecase.GetBeersUseCase
 import by.hometrainng.mvvmkoin6.domain.usecase.InsertBeersToDBUseCase
@@ -21,10 +22,6 @@ class ListViewModel(
         replay = 1, extraBufferCapacity = 0, onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
-    init {
-        onLoadMore()
-    }
-
     val dataFlow = loadMoreFlow
         .filter { !isLoading }
         .onEach { isLoading = true }
@@ -32,7 +29,7 @@ class ListViewModel(
             getBeersUseCase(currentPage, PAGE_SIZE)
                 .fold(
                     onSuccess = { it },
-                    onFailure = { error("Upload Failure") }
+                    onFailure = { emptyList() }
                 )
         }
         .onEach {
@@ -47,6 +44,10 @@ class ListViewModel(
             started = SharingStarted.Eagerly,
             replay = 1
         )
+
+    init {
+        onLoadMore()
+    }
 
     fun onLoadMore() {
         loadMoreFlow.tryEmit(Unit)

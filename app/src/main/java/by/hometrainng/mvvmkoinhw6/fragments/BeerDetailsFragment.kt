@@ -10,13 +10,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import by.hometrainng.mvvmkoin6.domain.model.BeerDetails
+import by.hometrainng.mvvmkoinhw6.R
 import by.hometrainng.mvvmkoinhw6.databinding.FragmentBeerDetailsBinding
 import by.hometrainng.mvvmkoinhw6.model.LceState
 import by.hometrainng.mvvmkoinhw6.viewModels.DetailsViewModel
 import coil.load
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -25,6 +25,8 @@ class BeerDetailsFragment: Fragment() {
 
     private var _binding: FragmentBeerDetailsBinding? = null
     private val binding get() = requireNotNull(_binding)
+
+    private var beerID = 1
 
     private val args by navArgs<BeerDetailsFragmentArgs>()
 
@@ -55,9 +57,11 @@ class BeerDetailsFragment: Fragment() {
                     when(it) {
                         is LceState.Content<BeerDetails> -> {
                             val beer = it.data
+                            beerID = beer.id
                             image.load(beer.imageURL)
                             name.text = beer.name
                             description.text = beer.description
+                            tagline.text = beer.tagline
                         }
                         is LceState.Error -> {
                             Snackbar.make(
@@ -69,6 +73,18 @@ class BeerDetailsFragment: Fragment() {
                     }
                 }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
+
+            toolbar.setOnMenuItemClickListener {
+                when(it.itemId) {
+                    R.id.info -> {
+                        findNavController().navigate(
+                            BeerDetailsFragmentDirections.toInfo(beerID)
+                        )
+                        true
+                    }
+                    else -> false
+                }
+            }
         }
     }
 

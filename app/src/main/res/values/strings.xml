@@ -4,4 +4,6 @@
     <string name="random_title">Random</string>
     <string name="get_random_beer_button">Get random beer</string>
     <string name="settings_title">Settings</string>
+    <string name="map_title">Map</string>
+    <string name="details_title">Beer Details</string>
 </resources>
